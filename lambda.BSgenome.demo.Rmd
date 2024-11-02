@@ -1,0 +1,124 @@
+---
+title: "lambda BSgenome"
+author: "zetian jia"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Install
+
+# Load library
+```{r}
+library(BSgenome.Hsapiens.tapslambda)
+lambda <- BSgenome.Hsapiens.tapslambda
+
+```
+
+
+# Use
+
+## GC content
+```{r}
+GCcontent(lambda)
+```
+
+## 查看染色体长度
+```{r}
+seqlengths(lambda)
+```
+
+## 查看数据类型
+```{r}
+class(lambda) # 查看数据类型
+
+metadata(lambda) # 查看内容，显示homo，版本号，下载链接
+```
+
+## info
+```{r}
+seqnames(lambda)
+seqinfo(lambda)
+```
+
+
+## GC grange object
+
+调用`biovizBase`包，生成gr对象中GC含量的一列数据
+```{r}
+# GCcontent(lambda,gr)
+```
+
+# 测试构建过程
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(GenomicAlignments)
+library(GenomicRanges)
+library(Rsamtools)
+library(devtools)
+library(biovizBase)
+```
+
+https://www.jianshu.com/p/6073a75870d5
+
+```{}
+wget  -c "http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/faToTwoBit"
+chmod 755 faToTwoBit
+faToTwoBit gene.fa gene.2bit
+```
+
+## seed文件
+```{r}
+library(BSgenome)
+seed_files <- system.file("extdata", "GentlemanLab", package="BSgenome")
+tail(list.files(seed_files, pattern="-seed$"))
+#[1] "BSgenome.Sscrofa.UCSC.susScr11-seed"        "BSgenome.Sscrofa.UCSC.susScr3-seed"         #"BSgenome.Sscrofa.UCSC.susScr3.masked-seed"  "BSgenome.Tguttata.UCSC.taeGut1-seed"    
+#这里可以看到有很多seed文件，可以随便cp一个文件，然后在此基础上就行即可。
+
+# cd /home/jiazet/R/rstudio/4.3.1/BSgenome/extdata/GentlemanLab
+# cp BSgenome.Hsapiens.UCSC.hg38-seed ~/software/R_packages/BSgenome/lambda/
+```
+
+### 手动复制一个
+
+## forgeBSgenomeDataPkg
+```{r}
+seed_file="BSgenome.Hsapiens.taps.lambda-seed"
+#seqs_srcdir;destdir 序列文件所在以及输出的位置
+forgeBSgenomeDataPkg(seed_file, seqs_srcdir=getwd(), destdir=getwd(), verbose=TRUE,replace=TRUE)
+#forgeBSgenomeDataPkg(seed_file, verbose=TRUE)
+#unlink参数表示是否overwrite已有的目录，seqs_srcdir是twoBit的目录，destdir为生成包的目录，这里需要一定的时候。
+```
+```{}
+$ R CMD build ./BSgenome.Hsapiens.tapslambda/
+
+* checking for file ‘./BSgenome.Hsapiens.UCSC.taps.lambda/DESCRIPTION’ ... OK
+* preparing ‘BSgenome.Hsapiens.UCSC.taps.lambda’:
+* checking DESCRIPTION meta-information ... OK
+* checking for LF line-endings in source and make files and shell scripts
+* checking for empty or unneeded directories
+* building ‘BSgenome.Hsapiens.UCSC.taps.lambda_1.4.5.tar.gz’
+
+#如果发现Bug查找问题及时修复，只要 check for installation 不报错，基本就没有太大问题
+R CMD check BSgenome.Hsapiens.tapslambda_1.0.0.tar.gz
+R CMD INSTALL BSgenome.Hsapiens.tapslambda_1.0.0.tar.gz
+
+```
+
+```{r}
+library(BSgenome.Hsapiens.tapslambda)
+
+bsg <- BSgenome.Hsapiens.tapslambda
+```
+
+```{r}
+gcs <- GCcontent(bsg)
+```
+
+
+
+
+

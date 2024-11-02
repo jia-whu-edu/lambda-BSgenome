@@ -1,0 +1,16 @@
+Package: BSgenome.Hsapiens.tapslambda
+Title: Full genomic sequences for lambda
+Description: lambda
+Version: 1.0.0
+organism: Homo sapiens
+common_name: custom
+provider: Ensembl
+genome: hg38
+release_date: 2024-06-05
+source_url: NA
+organism_biocview: Homo_sapiens
+BSgenomeObjname: Lambda
+SrcDataFiles: NA
+PkgExamples: bst["lambda"]
+seqs_srcdir: ./
+seqfile_name: lambda.2bit
