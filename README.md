@@ -19,3 +19,24 @@ lambda <- BSgenome.Hsapiens.tapslambda
 #|
 #| Tips: call 'seqnames()' on the object to get all the sequence names, call 'seqinfo()' to get the full sequence info,
 #| use the '$' or '[[' operator to access a given sequence, see '?BSgenome' for more information.
+
+### 构建
+```
+samtools faidx lambda.fa
+```
+### 生成：
+```
+lambda  48502   8       60      61
+```
+### 构建
+```
+bedtools makewindows -g lambda.fa.fai -w 300 > lambda.300.bin.bed
+```
+### 计算R
+```
+bin <- "PATH/TO/lambda.300.bin.bed"
+gr <- import(bin)
+
+gr$gc <- biovizBase::GCcontent(lambda, gr)
+```
+
