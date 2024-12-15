@@ -7,7 +7,7 @@ devtools::install_github("jia-whu-edu/lambda-BSgenome")
 library(BSgenome.Hsapiens.tapslambda)
 
 lambda <- BSgenome.Hsapiens.tapslambda
-
+```
 #> lambda
 #| BSgenome object for custom
 #| - organism: Homo sapiens
